@@ -35,6 +35,14 @@ async function run() {
             res.send(services);
         });
 
+        // CRUD - create setup
+        app.post('/services', async (req, res) => {
+            const services = req.body;
+            // console.log(user);
+            const result = await serviceCollection.insertOne(services);
+            res.send(result);
+        });
+
 
         app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
