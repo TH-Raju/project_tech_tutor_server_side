@@ -6,7 +6,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const port = process.env.PORT || 5000;
 
-
+// Middleware
 app.use(cors());
 app.use(express.json());
 
@@ -122,6 +122,8 @@ run().catch(err => console.error(err));
 app.get('/', (req, res) => {
     res.send("API Working...");
 })
+
+
 app.listen(port, () => {
     console.log(`Server Running...${port}`)
 })
