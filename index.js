@@ -21,6 +21,8 @@ async function run() {
         const serviceCollection = client.db('myService').collection('services');
         const userFeedback = client.db('myService').collection('review');
 
+        // CRUD - Read setup
+
         app.get('/services', async (req, res) => {
             const query = {}
             const cursor = serviceCollection.find(query);
@@ -36,9 +38,9 @@ async function run() {
         });
 
         // CRUD - create setup
+
         app.post('/services', async (req, res) => {
             const services = req.body;
-            // console.log(user);
             const result = await serviceCollection.insertOne(services);
             res.send(result);
         });
@@ -52,12 +54,15 @@ async function run() {
         });
 
         //Review / feedback
+        // CRUD - Create Setup
 
         app.post('/review', async (req, res) => {
             const review = req.body;
             const usrfeedback = await userFeedback.insertOne(review);
             res.send(usrfeedback);
         })
+
+        // CRUD - Read setup
 
         app.get('/review', async (req, res) => {
             const query = {}
@@ -66,6 +71,8 @@ async function run() {
             res.send(feedback);
         });
 
+        //CRUD - Delete setup
+
         app.delete('/review/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
@@ -73,6 +80,8 @@ async function run() {
             const result = await userFeedback.deleteOne(query);
             res.send(result);
         });
+
+        // Updating
 
         app.get('/review/:id', async (req, res) => {
             const id = req.params.id;
