@@ -67,7 +67,7 @@ async function run() {
         app.get('/review', async (req, res) => {
             const query = {}
             const cursor = userFeedback.find(query);
-            const feedback = await cursor.toArray();
+            const feedback = await cursor.sort({ dateField: -1 }).toArray();
             res.send(feedback.reverse());
         });
 
