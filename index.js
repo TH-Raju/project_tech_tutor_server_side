@@ -34,7 +34,7 @@ async function run() {
             const query = {}
             const cursor = serviceCollection.find(query);
             const services = await cursor.toArray();
-            res.send(services);
+            res.send(services.reverse());
         });
 
         // CRUD - create setup
@@ -67,8 +67,8 @@ async function run() {
         app.get('/review', async (req, res) => {
             const query = {}
             const cursor = userFeedback.find(query);
-            const feedback = await cursor.sort({ date: -1 }).toArray();
-            res.send(feedback);
+            const feedback = await cursor.toArray();
+            res.send(feedback.reverse());
         });
 
         //CRUD - Delete setup
@@ -95,9 +95,11 @@ async function run() {
             const filter = { _id: ObjectId(id) };
             const review = req.body;
             const option = { upsert: true };
+            const dateField = new Date();
             const updatedReview = {
                 $set: {
-                    person: review.person
+                    person: review.person,
+                    dateField,
                 }
             }
             const result = await userFeedback.updateOne(filter, updatedReview, option);
